@@ -1,0 +1,121 @@
+.todo-container {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border: 1px solid #163832;
+  border-radius: 8px;
+  width: 400px;
+  min-height: 300px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.todo-container h3 {
+  margin: 0 0 25px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: #235347;
+}
+
+.todo-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.todo-input input {
+  flex: 1;
+  height: 45px;
+  padding: 0 15px;
+  background-color: #163832;
+  border: 1px solid #daf1da;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.todo-input input:focus {
+  border-color: #daf1da;
+  box-shadow: 0 0 0 3px rgba(35, 83, 71, 1);
+}
+
+.todo-input button {
+  height: 45px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  background: #163832;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.todo-input button:hover {
+  background: #235347;
+  transform: translateY(-1px);
+}
+
+.todo-input button:active {
+  transform: translateY(0);
+}
+
+
+.todo-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+.todo-container li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  background: #8eb69b;
+  border: 1px solid #eef0f3;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.todo-container li span {
+  color: white;
+  flex: 1;
+  font-size: 19px;
+}
+
+.todo-container li input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #163832;
+  cursor: pointer;
+}
+
+
+.todo-container li button {
+  border: none;
+  background-color: #163832;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.todo-container li button:hover {
+  background: #235347;
+}
+
+.completed {
+    opacity: 0.55;
+    text-decoration: line-through;
+    font-style: italic;
+    transition: all 0.3s ease;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #051f20;
+}
