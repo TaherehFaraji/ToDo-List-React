@@ -1,0 +1,95 @@
+.edit-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.edit-input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 12px;
+
+  background: #163832;
+  color: white;
+
+  border: 1px solid #daf1da;
+  border-radius: 8px;
+  outline: none;
+
+  font-size: 14px;
+
+  transition: all 0.2s ease;
+}
+
+.edit-input::placeholder {
+  color: #b5c7c0;
+}
+
+.edit-input:focus {
+  border-color: #daf1da;
+  box-shadow: 0 0 0 3px rgba(35, 83, 71, 0.3);
+}
+
+.save-btn,
+.cancel-btn {
+  height: 38px;
+  padding: 0 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  white-space: nowrap;
+}
+
+.save-btn {
+  background: #163832;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #235347;
+  transform: translateY(-1px);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+.cancel-btn {
+  background: #8eb69b;
+  color: #051f20;
+}
+
+.cancel-btn:hover {
+  background: #235347;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.cancel-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 450px) {
+  .edit-container {
+    flex-wrap: wrap;
+  }
+
+  .edit-input {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    flex: 1;
+  }
+}

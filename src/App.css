@@ -1,5 +1,6 @@
 * {
   font-family: 'Vazirmatn', sans-serif;
+  box-sizing: border-box;
 }
 
 .todo-container {

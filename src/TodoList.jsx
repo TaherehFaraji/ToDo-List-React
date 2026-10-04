@@ -1,246 +1,177 @@
-import { useState } from 'react';
-import './App.css';
+import { useContext, useState } from 'react'
+import TodoContext from './TodoContext'
+import './TodoList.css'
+import TodoEdit from './TodoEdit'
 
 function TodoList() {
-    const [todos, setTodos] = useState([]);
-    const [input, setInput] = useState('');
-    const [editingId, setEditingId] = useState(null);
-    const [editText, setEditText] = useState('');
-    const [descriptionId, setDescriptionId] = useState(null);
-    const [descriptionText, setDescriptionText] = useState('');
-    const [showDescriptionIds, setShowDescriptionIds] = useState([]);
+  const { state, dispatch } = useContext(TodoContext)
+  const { todos } = state
+  const [editingId, setEditingId] = useState(null)
+  const [descriptionId, setDescriptionId] = useState(null)
+  const [descriptionText, setDescriptionText] = useState('')
+  const [showDescriptionIds, setShowDescriptionIds] = useState([])
 
-    const addTodo = () => {
-        if (input.trim() === '') return;
+  const handleEdit = (id) => {
+    setEditingId(id)
+  }
 
-        const newTodo = {
-            id: Date.now(),
-            text: input,
-            description: '',
-            completed: false
-        };
+  const handleCancel = () => {
+    setEditingId(null)
+  }
 
-        setTodos([...todos, newTodo]);
-        setInput('');
-    };
+  const handleDescription = (todo) => {
+    setDescriptionId(todo.id)
+    setDescriptionText(todo.description || '')
+  }
+  const saveDescription = (id) => {
+    dispatch({
+      type: 'EDIT_DESCRIPTION',
+      payload: {
+        id: id,
+        description: descriptionText
+      }
+    })
 
-    const deleteTodo = (id) => {
-        setTodos(todos.filter(todo => todo.id !== id));
+    setDescriptionId(null)
+    setDescriptionText('')
 
-        setShowDescriptionIds(prev =>
-            prev.filter(item => item !== id)
-        );
+    setShowDescriptionIds(prev =>
+      prev.includes(id)
+        ? prev
+        : [...prev, id]
+    )
+  }
 
-        if (descriptionId === id) {
-            setDescriptionId(null);
-            setDescriptionText('');
-        }
+  const toggleDescription = (id) => {
+    setShowDescriptionIds(prev =>
+      prev.includes(id)
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    )
+  }
 
-        if (editingId === id) {
-            setEditingId(null);
-            setEditText('');
-        }
-    };
+  const handleKeyDownDescription = (e, id) => {
+    if (e.key === 'Enter') {
+      saveDescription(id)
+    }
+  }
 
-    const toggleTodo = (id) => {
-        setTodos(todos.map(todo => {
-            if (todo.id === id) {
-                if (!todo.completed) {
-                    const audio = new Audio('public/notification.wav');
-                    audio.play();
-                }
+  const handleToggleTodo = (id, completed) => {
+    if (!completed) {
+      const audio = new Audio('/notification.wav')
+      audio.play()
+    }
 
-                return {
-                    ...todo,
-                    completed: !todo.completed
-                };
-            }
+    dispatch({
+      type: 'TOGGLE_TODO',
+      payload: id
+    })
+  }
 
-            return todo;
-        }));
-    };
+  const handleDelete = (id) => {
+    dispatch({
+      type: 'DELETE_TODO',
+      payload: id
+    })
 
-    const handleKeyDownAdd = (e) => {
-        if (e.key === 'Enter') {
-            addTodo();
-        }
-    };
+    setShowDescriptionIds(prev =>
+      prev.filter(item => item !== id)
+    )
 
-    const handleKeyDownDescription = (e, id) => {
-        if (e.key === 'Enter') {
-            saveDescription(id);
-        }
-    };
+    if (descriptionId === id) {
+      setDescriptionId(null)
+      setDescriptionText('')
+    }
 
-    const handelKeyDownsaveEditing = (e, todo) => {
-        if (e.key === 'Enter') {
-            handleTodo('save', todo);
-        }
-    };
+    if (editingId === id) {
+      setEditingId(null)
+    }
+  }
 
-    const handleTodo = (action, todo) => {
+  return (
+    <ul className="todo-list">
+      {todos.map(todo => (
+        <li key={todo.id} className="todo-item">
+          {editingId === todo.id ? (
+            <TodoEdit
+              todo={todo}
+              onCancel={handleCancel} />
+          ) : (
+            <>
+              <div className="todo-content">
+                <div className="todo-main">
 
-        if (action === 'edit') {
-            setEditingId(todo.id);
-            setEditText(todo.text);
-        }
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => handleToggleTodo(todo.id, todo.completed)}
+                  />
 
-        if (action === 'save') {
-            if (editText.trim() === '') return;
+                  <span
+                    className={`todo-text ${todo.completed ? 'completed' : ''}`}
+                    onDoubleClick={() => handleDescription(todo)}>
+                    {todo.text}
+                  </span>
+                </div>
 
-            setTodos(todos.map(item =>
-                item.id === todo.id
-                    ? { ...item, text: editText }
-                    : item
-            ));
+                {showDescriptionIds.includes(todo.id) &&
+                  todo.description && (
+                    <div className="todo-description">
+                      {todo.description}
+                    </div>
+                  )}
 
-            setEditingId(null);
-            setEditText('');
-        }
-    };
+                {descriptionId === todo.id && (
+                  <div className="description-input">
+                    <input
+                      value={descriptionText}
+                      onChange={e =>
+                        setDescriptionText(e.target.value)
+                      }
+                      onKeyDown={e =>
+                        handleKeyDownDescription(e, todo.id)
+                      }
+                      autoFocus
+                    />
 
-    const handleDescription = (todo) => {
-        setDescriptionId(todo.id);
-        setDescriptionText(todo.description || '');
-    };
+                    <button
+                      onClick={() => saveDescription(todo.id)}>
+                      ذخیره
+                    </button>
+                  </div>
+                )}
+              </div>
 
-    const saveDescription = (id) => {
-        setTodos(todos.map(todo =>
-            todo.id === id
-                ? { ...todo, description: descriptionText }
-                : todo
-        ));
+              <div className="todo-actions">
+                <div className="main-actions">
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(todo.id)}>
+                    ویرایش
+                  </button>
 
-        setDescriptionId(null);
-        setDescriptionText('');
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(todo.id)}>
+                    حذف
+                  </button>
+                </div>
 
-        setShowDescriptionIds(prev =>
-            prev.includes(id)
-                ? prev
-                : [...prev, id]
-        );
-    };
-
-    const toggleDescription = (id) => {
-        setShowDescriptionIds(prev =>
-            prev.includes(id)
-                ? prev.filter(item => item !== id)
-                : [...prev, id]
-        );
-    };
-
-    return (
-        <div className="todo-container">
-
-            <h3>Todo List</h3>
-
-            <div className="todo-input">
-                <input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDownAdd}
-                />
-
-                <button onClick={addTodo}> اضافه کردن</button>
-            </div>
-
-            <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>
-
-                        <input
-                            type="checkbox"
-                            checked={todo.completed}
-                            onChange={() => toggleTodo(todo.id)}
-                        />
-
-                        {editingId === todo.id ? (
-                            <div className="todo-input">
-                                <input
-                                    value={editText}
-                                    onChange={(e) =>
-                                        setEditText(e.target.value)
-                                    }
-                                    onKeyDown={(e) => handelKeyDownsaveEditing(e, todo)}
-                                    autoFocus
-                                />
-
-                                <button
-                                    onClick={() =>
-                                        handleTodo('save', todo)}> ذخیره</button>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="todo-content">
-
-                                    <span
-                                        className={
-                                            todo.completed
-                                                ? 'completed'
-                                                : ''
-                                        }
-                                        onDoubleClick={() =>
-                                            handleDescription(todo)
-                                        }>
-                                        {todo.text}
-                                    </span>
-
-                                    {showDescriptionIds.includes(todo.id) &&
-                                        todo.description && (
-                                            <div className="todo-description">
-                                                {todo.description}
-                                            </div>
-                                        )}
-
-                                    {descriptionId === todo.id && (
-                                        <div className="description-input">
-
-                                            <input
-                                                value={descriptionText}
-                                                onChange={(e) =>
-                                                    setDescriptionText(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                onKeyDown={(e) => { handleKeyDownDescription(e, todo.id) }}
-                                                autoFocus
-                                            />
-
-                                            <button
-                                                onClick={() => saveDescription(todo.id)}> ذخیره</button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="todo-actions">
-
-                                    <div className="main-actions">
-
-                                        <button
-                                            onClick={() => handleTodo('edit', todo)}> ویرایش</button>
-
-                                        <button
-                                            onClick={() => deleteTodo(todo.id)}> حذف </button>
-                                    </div>
-
-                                    {todo.description && (
-                                        <button
-                                            className="description-button"
-                                            onClick={() => toggleDescription(todo.id)}>
-
-                                            {showDescriptionIds.includes(todo.id)
-                                                ? 'مخفی کردن'
-                                                : 'توضیحات'}
-                                        </button>
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+                {todo.description && (
+                  <button
+                    className="description-button"
+                    onClick={() => toggleDescription(todo.id)}>
+                    {showDescriptionIds.includes(todo.id)
+                      ? 'مخفی کردن'
+                      : 'توضیحات'}
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
 }
-
-export default TodoList;
+export default TodoList

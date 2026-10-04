@@ -1,0 +1,53 @@
+.todo-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 20px;
+  padding-top: 15px;
+
+  border-top: 1px solid #daf1da;
+}
+
+.items-left {
+  margin: 0;
+  font-size: 14px;
+  color: #235347;
+}
+
+.clear-btn {
+  border: none;
+  background: transparent;
+
+  color: #235347;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+
+  transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #daf1da;
+  color: #163832;
+  transform: translateY(-1px);
+}
+
+.clear-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 400px) {
+  .todo-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .clear-btn {
+    width: 100%;
+  }
+}

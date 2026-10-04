@@ -1,0 +1,92 @@
+.todo-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.todo-input {
+  flex: 1;
+  min-width: 0;
+  height: 45px;
+  padding: 0 15px;
+  background-color: #163832;
+  border: 1px solid #daf1da;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.todo-input::placeholder {
+  color: #b5c7c0;
+}
+
+.todo-input:focus {
+  border-color: #daf1da;
+  box-shadow: 0 0 0 3px rgba(35, 83, 71, 0.35);
+}
+
+.add-btn {
+  height: 45px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  background: #163832;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #235347;
+  transform: translateY(-1px);
+}
+
+.add-btn:active {
+  transform: translateY(0);
+}
+
+.undo-btn {
+  height: 45px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  background: #235347;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.undo-btn:hover:not(:disabled) {
+  background: #163832;
+  transform: translateY(-1px);
+}
+
+.undo-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.undo-btn:disabled {
+  background: #8eb69b;
+  color: #eef0f3;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 500px) {
+  .todo-form {
+    flex-direction: column;
+  }
+
+  .todo-input,
+  .add-btn,
+  .undo-btn {
+    width: 100%;
+  }
+}
