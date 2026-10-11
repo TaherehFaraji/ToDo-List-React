@@ -2,10 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-top: 20px;
   padding-top: 15px;
-
   border-top: 1px solid #daf1da;
 }
 
@@ -16,28 +14,20 @@
 }
 
 .clear-btn {
-  border: none;
-  background: transparent;
-
-  color: #235347;
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
-
-  transition: all 0.2s ease;
-}
-
-.clear-btn:hover {
   background: #daf1da;
+  border: 1.5px solid #235347;
   color: #163832;
-  transform: translateY(-1px);
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 7px 12px;
+  border-radius: 10px;
+  transition: transform 0.15s ease;
 }
 
 .clear-btn:active {
-  transform: translateY(0);
+  transform: translateY(2px);
 }
 
 @media (max-width: 400px) {

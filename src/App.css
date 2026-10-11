@@ -210,10 +210,18 @@
   box-shadow:0 0 0 3px rgba(35, 83, 71, 0.3);
 }
 
-
 .description-input button {
   height: 38px;
   padding: 0 12px;
+}
+
+.todo-container h1 {
+  font-family: 'Vazirmatn', sans-serif;
+  font-weight: 700;
+  color: #235347;
+  text-align: center;
+  margin-bottom: 25px;
+  letter-spacing: -0.5px;
 }
 
 @media (max-width: 450px) {

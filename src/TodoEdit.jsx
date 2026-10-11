@@ -21,12 +21,20 @@ function TodoEdit({ todo, onCancel }) {
     }
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSave()
+    }
+  }
+
   return (
     <div className="edit-container">
       <input
         className="edit-input"
         value={editText}
-        onChange={e => setEditText(e.target.value)}/>
+        onChange={e => setEditText(e.target.value)}
+        onKeyDown={handleKeyDown}
+        autoFocus />
       <button className="save-btn" onClick={handleSave}>Save</button>
       <button className="cancel-btn" onClick={onCancel}>Cancel</button>
     </div>

@@ -136,7 +136,7 @@ function TodoList() {
 
                     <button
                       onClick={() => saveDescription(todo.id)}>
-                      ذخیره
+                     Save
                     </button>
                   </div>
                 )}
@@ -147,13 +147,13 @@ function TodoList() {
                   <button
                     className="edit-btn"
                     onClick={() => handleEdit(todo.id)}>
-                    ویرایش
+                    Edit
                   </button>
 
                   <button
                     className="delete-btn"
                     onClick={() => handleDelete(todo.id)}>
-                    حذف
+                   Delete
                   </button>
                 </div>
 
@@ -162,8 +162,8 @@ function TodoList() {
                     className="description-button"
                     onClick={() => toggleDescription(todo.id)}>
                     {showDescriptionIds.includes(todo.id)
-                      ? 'مخفی کردن'
-                      : 'توضیحات'}
+                      ? 'Hide'
+                      : 'Description'}
                   </button>
                 )}
               </div>
