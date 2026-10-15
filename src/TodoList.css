@@ -199,3 +199,80 @@
 .description-input button:hover {
   background: #235347;
 }
+
+.todo-list-wrapper {
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px;
+}
+
+.pagination button {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border: 2px solid #163832;
+  background: transparent;
+  color: #163832;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination button:hover:not(:disabled):not(.active) {
+  background: #235347;
+  color: #daf1da;
+  border-color: #235347;
+  transform: translateY(-1px);
+}
+
+.pagination button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pagination button.active {
+  background: #163832;
+  color: #daf1da;
+  border-color: #163832;
+  cursor: default;
+  box-shadow: 0 4px 10px rgba(5, 31, 32, 0.25);
+}
+
+.pagination button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  border-color: #8eb69b;
+  color: #8eb69b;
+}
+
+.pagination button:focus-visible {
+  outline: 3px solid #daf1da;
+  outline-offset: 2px;
+}
+
+@media (max-width: 450px) {
+  .pagination {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .pagination button {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+}
