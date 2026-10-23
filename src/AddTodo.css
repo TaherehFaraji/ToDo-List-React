@@ -79,6 +79,14 @@
   opacity: 0.65;
 }
 
+.form-error {
+  color: #ffe0e0;
+  font-size: 13px;
+  margin: 6px 0 0;
+  text-align: right;
+  width: 100%;
+}
+
 @media (max-width: 500px) {
   .todo-form {
     flex-direction: column;

@@ -1,44 +1,49 @@
-import { useState, useContext } from 'react'
+import { useActionState, useContext } from 'react'
+import { useFormStatus } from 'react-dom'
 import TodoContext from './TodoContext'
 import './TodoEdit.css'
 
-
-function TodoEdit({ todo, onCancel }) {
-  const [editText, setEditText] = useState(todo.text)
-  const { dispatch } = useContext(TodoContext)
-
-  const handleSave = () => {
-    if (editText.trim()) {
-      dispatch({
-        type: 'EDIT_TODO',
-        payload: {
-          id: todo.id,
-          text: editText
-        }
-      })
-
-      onCancel()
-    }
-  }
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSave()
-    }
-  }
-
+function SaveButton() {
+  const { pending } = useFormStatus()
   return (
-    <div className="edit-container">
-      <input
-        className="edit-input"
-        value={editText}
-        onChange={e => setEditText(e.target.value)}
-        onKeyDown={handleKeyDown}
-        autoFocus />
-      <button className="save-btn" onClick={handleSave}>Save</button>
-      <button className="cancel-btn" onClick={onCancel}>Cancel</button>
-    </div>
+    <button type='submit' disabled={pending}>{pending ? 'Saving...' : 'Save'}</button>
   )
 }
+
+function TodoEdit({ todo, onCancel }) {
+  const { dispatch } = useContext(TodoContext)
+
+  const editAction = async (_prevState, formData) => {
+    await new Promise(r => setTimeout(r, 1000))
+    const text = formData.get('text')?.toString().trim()
+    if (!text) {
+      return { error: 'Text required' }
+    }
+
+    dispatch({
+      type: 'EDIT_TODO',
+      payload: { id: todo.id, text }
+    })
+
+    onCancel()
+    return { error: null }
+  }
+
+  const [formState, formAction] = useActionState(editAction, { error: null })
+
+  return (
+    <form action={formAction} className="edit-container">
+      <input
+        className="edit-input"
+        name='text'
+        defaultValue={todo.text}
+        autoFocus />
+      <SaveButton />
+      <button className="cancel-btn" onClick={onCancel}>Cancel</button>
+      {formState.error && <p className="form-error">{formState.error}</p>}
+    </form>
+  )
+}
+
 
 export default TodoEdit
